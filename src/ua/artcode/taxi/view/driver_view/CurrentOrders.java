@@ -95,20 +95,12 @@ public class CurrentOrders extends JFrame {
         String[] textOrders = new String[viewOrders];
 
         List<Order> allNewOrders = userService.getAllOrdersByStatus(OrderStatus.NEW);
-
-        System.out.println("size new orders: " + allNewOrders.size());
-
         int[] distances = userService.getArrayDistancesToDriver(allNewOrders, addressDriver);
-
-        System.out.println("size distances: " + distances.length);
-
-        Map<String, Order> distanceMap = userService.getMapDistancesToDriver(allNewOrders, distances);
-
-        System.out.println("distance map size: " + distanceMap.size());
+        Map<Integer, Order> distanceMap = userService.getMapDistancesToDriver(allNewOrders, distances);
 
         if (distanceMap.size() < viewOrders) {
             for (int i = 0; i < distanceMap.size(); i++) {
-                textOrders[i] = distanceMap.get(distances[i] + "").toStringForViewShort() +
+                textOrders[i] = distanceMap.get(distances[i]).toStringForViewShort() +
                         ", distance to you: " + distances[i]/1000 + "km";
             }
             for (int i = distanceMap.size(); i < viewOrders; i++) {
@@ -116,7 +108,7 @@ public class CurrentOrders extends JFrame {
             }
         } else if (distanceMap.size() >= viewOrders) {
             for (int i = 0; i < viewOrders; i++) {
-                textOrders[i] = distanceMap.get(distances[i] + "").toStringForViewShort() +
+                textOrders[i] = distanceMap.get(distances[i]).toStringForViewShort() +
                         ", distance to you: "  + distances[i]/1000 + "km";
             }
         }
@@ -128,7 +120,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton1.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[0] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[0]));
                 }
             }
         });
@@ -141,7 +133,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton2.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[1] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[1]));
                 }
             }
         });
@@ -154,7 +146,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton3.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[2] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[2]));
                 }
             }
         });
@@ -167,7 +159,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton4.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[3] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[3]));
                 }
             }
         });
@@ -180,7 +172,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton5.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[4] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[4]));
                 }
             }
         });
@@ -193,7 +185,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton6.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[5] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[5]));
                 }
             }
         });
@@ -206,7 +198,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton7.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[6] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[6]));
                 }
             }
         });
@@ -219,7 +211,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton8.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[7] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[7]));
                 }
             }
         });
@@ -232,7 +224,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton9.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[8] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[8]));
                 }
             }
         });
@@ -245,7 +237,7 @@ public class CurrentOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!infoOrderButton10.getText().equals("")) {
                     dispose();
-                    new DriverOrderInfo(userService, distanceMap.get(distances[9] + ""));
+                    new DriverOrderInfo(userService, distanceMap.get(distances[9]));
                 }
             }
         });

@@ -167,7 +167,7 @@ public class DriverOrderInfo extends JFrame {
                     new DriverOrderInfo(userService, takenOrder);
 
                 } catch (OrderNotFoundException e1) {
-                    JOptionPane.showMessageDialog(getParent(), "Order was not found");
+                    JOptionPane.showMessageDialog(getParent(), "Order not found");
                 } catch (DriverOrderActionException e1) {
                     JOptionPane.showMessageDialog(getParent(), "Driver can has only 1 order IN_PROGRESS");
                 } catch (WrongStatusOrderException e1) {
@@ -185,12 +185,12 @@ public class DriverOrderInfo extends JFrame {
                 try {
                     //todo rate driver
                     Order closedOrder = userService.closeOrder(ClientAccessToken.getAccessToken(), myOrder.getId());
-                    dispose();
                     JOptionPane.showMessageDialog(getParent(), "Order id " + myOrder.getId() + " will be closed");
+                    dispose();
                     new DriverOrderInfo(userService, closedOrder);
 
                 } catch (OrderNotFoundException e1) {
-                    JOptionPane.showMessageDialog(getParent(), "Order not found in data base");
+                    JOptionPane.showMessageDialog(getParent(), "Order not found");
                 } catch (WrongStatusOrderException e1) {
                     JOptionPane.showMessageDialog(getParent(), "Order must have status IN_PROGRESS for close");
                 } catch (DriverOrderActionException e1) {

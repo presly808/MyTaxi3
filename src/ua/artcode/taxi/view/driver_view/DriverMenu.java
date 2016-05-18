@@ -139,7 +139,7 @@ public class DriverMenu extends JFrame {
                     JOptionPane.showMessageDialog(getParent(), currentUser.getName() + " will be deleted");
 
                     User deletedUser = userService.deleteUser(ClientAccessToken.getAccessToken());
-                    if (deletedUser.getId().equals(currentUser.getId())) {
+                    if (deletedUser.getId() == currentUser.getId()) {
                         ClientAccessToken.setAccessToken(null);
                     }
                 }

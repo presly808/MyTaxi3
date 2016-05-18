@@ -37,15 +37,7 @@ public class OrderDaoInnerDbImpl implements OrderDao {
             if (order.getId() == newOrder.getId()) {
 
                 order = newOrder;
-/*
-                order.setPhone(newOrder.getPhone());
-                order.setOrderStatus(newOrder.getOrderStatus());
-                order.setFrom(newOrder.getFrom());
-                order.setTo(newOrder.getTo());
-                order.setPassenger(newOrder.getPassenger());
-                order.setDriver(newOrder.getDriver());
-                order.setMessage(newOrder.getMessage());
-*/
+
                 result = order;
             }
         }

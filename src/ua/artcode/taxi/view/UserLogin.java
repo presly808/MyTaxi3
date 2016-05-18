@@ -1,5 +1,6 @@
 package ua.artcode.taxi.view;
 
+import ua.artcode.taxi.model.UserIdentifier;
 import ua.artcode.taxi.service.ClientAccessToken;
 import ua.artcode.taxi.service.UserService;
 import ua.artcode.taxi.view.driver_view.DriverMenu;
@@ -70,10 +71,10 @@ public class UserLogin extends JFrame {
                         ClientAccessToken.accessToken = accessToken;
                         dispose();
 
-                        if (userService.getUser(accessToken).getId().subSequence(0, 1).equals("P")) {
+                        if (userService.getUser(accessToken).getIdentifier().equals(UserIdentifier.P)) {
                             new PassengerMenu(userService);
 
-                        } else if (userService.getUser(accessToken).getId().subSequence(0, 1).equals("D")) {
+                        } else if (userService.getUser(accessToken).getIdentifier().equals(UserIdentifier.D)) {
                             new DriverMenu(userService);
                         }
 

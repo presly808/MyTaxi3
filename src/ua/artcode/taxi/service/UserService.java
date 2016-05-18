@@ -38,7 +38,7 @@ public interface UserService {
     Order takeOrder(String accessToken, long orderId)
             throws OrderNotFoundException, WrongStatusOrderException, DriverOrderActionException;
     List<Order> getAllOrdersByStatus(OrderStatus status);
-    Map<String, Order> getMapDistancesToDriver(List<Order> ordersInProgress, int[] distances);
+    Map<Integer, Order> getMapDistancesToDriver(List<Order> ordersInProgress, int[] distances);
     int[] getArrayDistancesToDriver(List<Order> orders, Address addressDriver);
 
     //action for all

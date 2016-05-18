@@ -5,8 +5,11 @@ import java.util.List;
 
 public interface DriverActive {
 
-    String getId();
-    void setId(String id);
+    int getId();
+    void setId(int id);
+
+    UserIdentifier getIdentifier();
+    void setIdentifier(UserIdentifier identifier);
 
     String getPhone();
     void setPhone(String phone);

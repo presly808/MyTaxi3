@@ -9,10 +9,10 @@ import java.util.List;
 // CRUD, Create, Read, Update, Delete
 public interface UserDao {
 
-    User createUser(User user, String identifier);
+    User createUser(User user);
     Collection<User> getAllUsers();
     User updateUser(User newUser);
-    User deleteUser(String id);
+    User deleteUser(int id);
 
     User find(String phone);
     List<User> getAllPassenger();

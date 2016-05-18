@@ -4,6 +4,7 @@ import ua.artcode.taxi.exception.OrderNotFoundException;
 import ua.artcode.taxi.exception.UserNotFoundException;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 import ua.artcode.taxi.service.ClientAccessToken;
 import ua.artcode.taxi.service.UserService;
 import ua.artcode.taxi.view.driver_view.DriverOrderInfo;
@@ -63,9 +64,9 @@ public class MessageAdd extends JFrame {
                 myOrder.setMessage(newMessage);
                 dispose();
 
-                if (currentUser.getId().subSequence(0, 1).equals("P")) {
+                if (currentUser.getIdentifier().equals(UserIdentifier.P)) {
                     new PassengerOrderInfo(userService, myOrder);
-                } else if (currentUser.getId().subSequence(0, 1).equals("D")) {
+                } else if (currentUser.getIdentifier().equals(UserIdentifier.D)) {
                     new DriverOrderInfo(userService, myOrder);
                 }
             }
@@ -83,9 +84,9 @@ public class MessageAdd extends JFrame {
                             (ClientAccessToken.accessToken).getId());
                     dispose();
 
-                    if (currentUser.getId().subSequence(0, 1).equals("P")) {
+                    if (currentUser.getIdentifier().equals(UserIdentifier.P)) {
                         new PassengerOrderInfo(userService, currentOrder);
-                    } else if (currentUser.getId().subSequence(0, 1).equals("D")) {
+                    } else if (currentUser.getIdentifier().equals(UserIdentifier.D)) {
                         new DriverOrderInfo(userService, currentOrder);
                     }
 

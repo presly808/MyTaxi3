@@ -46,18 +46,22 @@ public class AppDB {
                 '}';
     }
 
-    public User addUser(User user, String identifier){
-        user.setId(identifier + userIdCounter++);
+    public User addUser(User user){
+
+        user.setId(userIdCounter++);
         users.put(user, new ArrayList<>());
+
         return user;
     }
 
     public Order addOrder(User user, Order order){
+
         order.setId(orderIdCounter++);
         orders.add(order);
+
         List<Order> newList = users.get(user);
         newList.add(order);
-        users.put(user, newList);
+        users.replace(user, newList);
 
         return order;
     }
@@ -84,7 +88,7 @@ public class AppDB {
 
         List<Order> newList = users.get(user);
         newList.add(order);
-        users.put(user, newList);
+        users.replace(user, newList);
 
         return order;
     }

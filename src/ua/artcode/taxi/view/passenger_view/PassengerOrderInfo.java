@@ -120,7 +120,7 @@ public class PassengerOrderInfo extends JFrame {
         carText.setEditable(false);
         if (myOrder.getDriver() != null) {
             User orderDriver = myOrder.getDriver();
-            driverText.setText(orderDriver.getCar().getModel() + ", " + orderDriver.getCar().getNumber());
+            carText.setText(orderDriver.getCar().getModel() + ", " + orderDriver.getCar().getNumber());
         }
 
         messageLabel = new JLabel("MESSAGE:");

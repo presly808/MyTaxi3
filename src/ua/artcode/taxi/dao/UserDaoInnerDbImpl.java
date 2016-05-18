@@ -2,6 +2,7 @@ package ua.artcode.taxi.dao;
 
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,8 +17,8 @@ public class UserDaoInnerDbImpl implements UserDao {
     }
 
     @Override
-    public User createUser(User user, String identifier) {
-        return appDB.addUser(user, identifier);
+    public User createUser(User user) {
+        return appDB.addUser(user);
     }
 
     @Override
@@ -32,16 +33,9 @@ public class UserDaoInnerDbImpl implements UserDao {
 
         for (User user : appDB.getUsers().keySet()) {
 
-            if (user.getId().equals(newUser.getId())) {
+            if (user.getId() == newUser.getId()) {
 
                 user = newUser;
-/*
-                user.setPhone(newUser.getPhone());
-                user.setPass(newUser.getPass());
-                user.setName(newUser.getName());
-                user.setHomeAddress(newUser.getHomeAddress());
-                user.setCar(newUser.getCar());
-*/
                 result = user;
             }
         }
@@ -49,12 +43,12 @@ public class UserDaoInnerDbImpl implements UserDao {
     }
 
     @Override
-    public User deleteUser(String id) {
+    public User deleteUser(int id) {
 
         User result = null;
 
         for (User user : appDB.getUsers().keySet()) {
-            if (user.getId().equals(id)) {
+            if (user.getId() == id) {
                 result = user;
             }
         }
@@ -74,7 +68,7 @@ public class UserDaoInnerDbImpl implements UserDao {
         List<User> passengers = new ArrayList<>();
 
         for (User user : appDB.getUsers().keySet()) {
-            if (user.getId().subSequence(0, 1).equals("P")) {
+            if (user.getIdentifier().equals(UserIdentifier.P)) {
                 passengers.add(user);
             }
         }
@@ -87,7 +81,7 @@ public class UserDaoInnerDbImpl implements UserDao {
         List<User> drivers = new ArrayList<>();
 
         for (User user : appDB.getUsers().keySet()) {
-            if (user.getId().subSequence(0, 1).equals("D")) {
+            if (user.getIdentifier().equals(UserIdentifier.D)) {
                 drivers.add(user);
             }
         }

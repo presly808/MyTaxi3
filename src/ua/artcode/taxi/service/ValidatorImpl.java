@@ -5,6 +5,7 @@ import ua.artcode.taxi.exception.InputDataWrongException;
 import ua.artcode.taxi.exception.RegisterException;
 import ua.artcode.taxi.model.Address;
 import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 
 import java.util.Collection;
 
@@ -70,13 +71,14 @@ public class ValidatorImpl implements Validator {
     }
 
     @Override
-    public boolean validateChangeRegistration(String id, String phone) throws RegisterException {
+    public boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone)
+                                                                        throws RegisterException {
 
         Collection<User> users = appDB.getUsers().keySet();
 
         for (User user : users) {
-            if (user.getPhone().equals(phone) && !user.getId().equals(id) &&
-                        user.getId().subSequence(0, 1).equals(id.subSequence(0, 1))) {
+            if (user.getPhone().equals(phone) && user.getId() != id &&
+                        user.getIdentifier().equals(identifier)) {
                 throw new RegisterException("This phone using already");
             }
         }

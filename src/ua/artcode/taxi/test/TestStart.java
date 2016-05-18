@@ -15,15 +15,19 @@ public class TestStart {
         OrderDao orderDao = new OrderDaoInnerDbImpl(appDB);
         ValidatorImpl validator = new ValidatorImpl(appDB);
 
-        User passenger1 = new User("1234", "test", "Vasya", new Address("Ukraine", "Kiev", "Khreschatik", "5"));
-        User passenger2 = new User("1111", "test1", "Ivan", new Address("Ukraine", "Kiev", "Zhukova", "51"));
-        userDao.createUser(passenger1, "P");
-        userDao.createUser(passenger2, "P");
+        User passenger1 = new User(UserIdentifier.P,
+                "1234", "test", "Vasya", new Address("Ukraine", "Kiev", "Khreschatik", "5"));
+        User passenger2 = new User(UserIdentifier.P,
+                "1111", "test1", "Ivan", new Address("Ukraine", "Kiev", "Zhukova", "51"));
+        userDao.createUser(passenger1);
+        userDao.createUser(passenger2);
 
-        User driver1 = new User("5678", "test", "Petya", new Car("sedan", "skoda rapid", "2233"));
-        User driver2 = new User("2222", "test1", "Dima", new Car("pickup", "mitsubishi l200", "2346"));
-        userDao.createUser(driver1, "D");
-        userDao.createUser(driver2, "D");
+        User driver1 = new User(UserIdentifier.D,
+                "5678", "test", "Petya", new Car("sedan", "skoda rapid", "2233"));
+        User driver2 = new User(UserIdentifier.D,
+                "2222", "test1", "Dima", new Car("pickup", "mitsubishi l200", "2346"));
+        userDao.createUser(driver1);
+        userDao.createUser(driver2);
 
         new UserLogin(new UserServiceImpl(userDao, orderDao, validator));
 

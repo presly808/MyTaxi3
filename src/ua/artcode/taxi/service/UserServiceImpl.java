@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new RegisterException("can not create exception");
         }
 
-        return userDao.createUser(user, "P");
+        return userDao.createUser(user);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
             throw new RegisterException("can not create exception");
         }
 
-        return userDao.createUser(user, "D");
+        return userDao.createUser(user);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
             int price = (int) pricePerKilometer * distance;
             message = message.equals("") ? "" : accessKeys.get(accessToken).getName() + ": " + message;
 
-            newOrder = new Order(from, to, accessKeys.get(accessToken), price, distance, message);
+            newOrder = new Order(from, to, accessKeys.get(accessToken), distance, price, message);
 
             orderDao.create(accessKeys.get(accessToken), newOrder);
             accessKeys.get(accessToken).getOrderIds().add(newOrder.getId());
@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService {
         int price = (int) pricePerKilometer * distance;
 
 
-        User anonymousUser = userDao.createUser(new User(phone, name), "A");
-        Order newOrder = new Order(from, to, anonymousUser, price, distance, message);
+        User anonymousUser = userDao.createUser(new User(UserIdentifier.A, phone, name));
+        Order newOrder = new Order(from, to, anonymousUser, distance, price, message);
         orderDao.create(anonymousUser, newOrder);
 
         return newOrder;
@@ -196,18 +196,22 @@ public class UserServiceImpl implements UserService {
         User user = accessKeys.get(accessToken);
         Order closed = orderDao.find(orderId);
         List<Order> ordersUser = userDao.getOrdersOfUser(user);
+        Order result = null;
 
         for (Order order : ordersUser) {
-            if (order.getOrderStatus().equals(OrderStatus.IN_PROGRESS)) {
-                throw new DriverOrderActionException("Driver has orders IN_PROGRESS already");
+            if (order.getId() == closed.getId()) {
+                result = order;
             }
         }
 
         if (closed == null) {
             throw new OrderNotFoundException("Order not found in data base");
 
-        } else if (!closed.getOrderStatus().equals(OrderStatus.NEW)) {
-            throw new WrongStatusOrderException("This order has wrong status (not NEW)");
+        } else if (result == null) {
+            throw new DriverOrderActionException("Order not found in driver orders list");
+
+        } else if (!result.getOrderStatus().equals(OrderStatus.IN_PROGRESS)) {
+            throw new WrongStatusOrderException("This order has wrong status (not IN_PROGRESS)");
         } else {
             closed.setOrderStatus(OrderStatus.DONE);
         }
@@ -257,18 +261,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Order> getMapDistancesToDriver(List<Order> ordersInProgress, int[] distances) {
+    public Map<Integer, Order> getMapDistancesToDriver(List<Order> ordersInProgress, int[] distances) {
 
-        Map<String, Order> mapDistances = new HashMap<>(ordersInProgress.size());
+        Map<Integer, Order> mapDistances = new HashMap<>(ordersInProgress.size());
 
         for (int i = 0; i < distances.length; i++) {
-            mapDistances.put(distances[i] + "", ordersInProgress.get(i));
+            mapDistances.put(distances[i], ordersInProgress.get(i));
         }
 
-        Map<String, Order> sortingMapDistances = new HashMap<>(ordersInProgress.size());
+        Map<Integer, Order> sortingMapDistances = new HashMap<>(ordersInProgress.size());
         Arrays.sort(distances);
         for (int i = 0; i < distances.length; i++) {
-            sortingMapDistances.put(distances[i] + "", mapDistances.get(distances[i] + ""));
+            sortingMapDistances.put(distances[i], mapDistances.get(distances[i]));
         }
 
         return sortingMapDistances;
@@ -283,7 +287,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User newUser, String accessToken) throws RegisterException {
 
-        if (!validator.validateChangeRegistration(newUser.getId(), newUser.getPhone())) {
+        if (!validator.validateChangeRegistration(newUser.getIdentifier(), newUser.getId(), newUser.getPhone())) {
             throw new RegisterException("This phone is already in use by another user");
 
         } else {

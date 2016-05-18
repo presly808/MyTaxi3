@@ -3,6 +3,7 @@ package ua.artcode.taxi.view.driver_view;
 import ua.artcode.taxi.exception.RegisterException;
 import ua.artcode.taxi.model.Car;
 import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 import ua.artcode.taxi.service.ClientAccessToken;
 import ua.artcode.taxi.service.UserService;
 import ua.artcode.taxi.view.UserLogin;
@@ -109,7 +110,7 @@ public class DriverRegistration extends JFrame {
                     try {
                         //for change registration
                         if (ClientAccessToken.accessToken != null) {
-                            User newUser = new User(phoneText.getText(), passText.getText(), nameText.getText(),
+                            User newUser = new User(UserIdentifier.D, phoneText.getText(), passText.getText(), nameText.getText(),
                                     new Car(carTypeText.getText(), carModelText.getText(), carNumberText.getText()));
                             newUser.setId(userService.getUser(ClientAccessToken.accessToken).getId());
 
@@ -117,7 +118,7 @@ public class DriverRegistration extends JFrame {
 
                         //for new registration
                         } else if (ClientAccessToken.accessToken == null) {
-                            User newDriver = new User(phoneText.getText(), passText.getText(), nameText.getText(),
+                            User newDriver = new User(UserIdentifier.D, phoneText.getText(), passText.getText(), nameText.getText(),
                                     new Car(carTypeText.getText(), carModelText.getText(), carNumberText.getText()));
 
                             userService.registerDriver(newDriver);

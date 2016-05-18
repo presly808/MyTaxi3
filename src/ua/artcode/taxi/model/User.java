@@ -6,7 +6,8 @@ import java.util.List;
 
 public class User implements PassengerActive, DriverActive {
 
-    private String id;
+    private int id;
+    private UserIdentifier identifier;
     private String phone;
     private String pass;
     private String name;
@@ -14,14 +15,16 @@ public class User implements PassengerActive, DriverActive {
     private Car car;
     private Collection<Long> orderIds = new ArrayList<>();
 
-    public User(String phone, String pass, String name, Address homeAddress) {
+    public User(UserIdentifier identifier, String phone, String pass, String name, Address homeAddress) {
+        this.identifier = identifier;
         this.phone = phone;
         this.pass = pass;
         this.name = name;
         this.homeAddress = homeAddress;
     }
 
-    public User(String phone, String pass, String name, Car car) {
+    public User(UserIdentifier identifier, String phone, String pass, String name, Car car) {
+        this.identifier = identifier;
         this.phone = phone;
         this.pass = pass;
         this.name = name;
@@ -29,19 +32,30 @@ public class User implements PassengerActive, DriverActive {
     }
 
     //for anonymous
-    public User(String phone, String name) {
+    public User(UserIdentifier identifier, String phone, String name) {
+        this.identifier = identifier;
         this.phone = phone;
         this.name = name;
     }
 
     @Override
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     @Override
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public UserIdentifier getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public void setIdentifier(UserIdentifier identifier) {
+        this.identifier = identifier;
     }
 
     @Override
