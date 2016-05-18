@@ -90,7 +90,7 @@ public class MakeOrder extends JFrame {
                     }
 
                 } catch (OrderNotFoundException e1) {
-                    JOptionPane.showMessageDialog(getParent(), "Order not found ???");
+                    JOptionPane.showMessageDialog(getParent(), "You don't have any orders");
                 } catch (UserNotFoundException e1) {
                     JOptionPane.showMessageDialog(getParent(), "User not found ???");
                 }

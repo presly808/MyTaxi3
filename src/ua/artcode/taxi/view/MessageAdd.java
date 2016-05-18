@@ -86,6 +86,7 @@ public class MessageAdd extends JFrame {
 
                     if (currentUser.getIdentifier().equals(UserIdentifier.P)) {
                         new PassengerOrderInfo(userService, currentOrder);
+
                     } else if (currentUser.getIdentifier().equals(UserIdentifier.D)) {
                         new DriverOrderInfo(userService, currentOrder);
                     }

@@ -50,8 +50,6 @@ public class ValidatorImpl implements Validator {
     @Override
     public boolean validateAddress(Address address) throws InputDataWrongException {
 
-        boolean result = false;
-
         if (address.getCountry().equals("")) {
             throw new InputDataWrongException("Wrong data: country");
             //result = false;
@@ -64,10 +62,9 @@ public class ValidatorImpl implements Validator {
         } else if (address.getHouseNum().equals("")) {
             throw new InputDataWrongException("Wrong data: houseNum");
             //result = false;
-        } else {
-            result = true;
         }
-        return result;
+
+        return true;
     }
 
     @Override

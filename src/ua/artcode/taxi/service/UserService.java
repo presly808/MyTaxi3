@@ -46,16 +46,4 @@ public interface UserService {
     List<Order> getAllOrdersUser(String accessToken);
     User updateUser(User newUser, String accessToken) throws RegisterException;
     User deleteUser(String accessToken);
-
-    /*
-    Order submitOrder(Order order) throws OrderMakeException;
-
-    Order getLastOrderInfo(String accessToken) throws UserNotFoundException, LoginException;
-    Order getPreviousOrder(String accessToken, long orderId);
-    //navigation
-
-    User findUserByPhone(String phone);
-    String exitUser(String accessToken);
-    String deleteUser(String accessToken);
-    */
 }

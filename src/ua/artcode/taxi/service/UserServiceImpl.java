@@ -161,13 +161,14 @@ public class UserServiceImpl implements UserService {
     public Order getLastOrderInfo(String accessToken) throws UserNotFoundException, OrderNotFoundException {
 
         if (accessToken != null) {
-            List<Long> orderIds = (List<Long>) accessKeys.get(accessToken).getOrderIds();
+            List<Order> allUserOrders = getAllOrdersUser(accessToken);
 
-            if ((orderIds.size() - 1) >= 0) {
-                return getOrderInfo(orderIds.get(orderIds.size() - 1));
-            } else {
+            if (allUserOrders.size() <= 0) {
                 throw new OrderNotFoundException("User don't have any orders");
+
             }
+
+            return allUserOrders.get(allUserOrders.size() - 1);
 
         } else {
             throw new UserNotFoundException("wrong data user");
