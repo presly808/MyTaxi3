@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
             Location location1 = googleMapsAPI.findLocation(to.getCountry(), to.getCity(),
                     to.getStreet(), to.getHouseNum());
             int distance = (int) (googleMapsAPI.getDistance(location, location1) / 1000);
-            int price = (int) pricePerKilometer * distance;
+            int price = (int) pricePerKilometer * distance + 30;
             message = message.equals("") ? "" : accessKeys.get(accessToken).getName() + ": " + message;
 
             newOrder = new Order(from, to, accessKeys.get(accessToken), distance, price, message);
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
         Location location1 = googleMapsAPI.findLocation(to.getCountry(), to.getCity(),
                 to.getStreet(), to.getHouseNum());
         int distance = (int) (googleMapsAPI.getDistance(location, location1) / 1000);
-        int price = (int) pricePerKilometer * distance;
+        int price = (int) pricePerKilometer * distance + 30;
 
 
         User anonymousUser = userDao.createUser(new User(UserIdentifier.A, phone, name));
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         Location location1 = googleMapsAPI.findLocation(to.getCountry(), to.getCity(),
                         to.getStreet(), to.getHouseNum());
         int distance = ((int) googleMapsAPI.getDistance(location, location1) / 1000);
-        int price = (int) pricePerKilometer * distance;
+        int price = (int) pricePerKilometer * distance + 30;
 
         testOrder.setDistance(distance);
         testOrder.setPrice(price);
