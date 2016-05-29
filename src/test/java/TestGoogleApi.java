@@ -1,23 +1,23 @@
-package ua.artcode.taxi.test;
-
+import org.junit.Assert;
+import org.junit.Test;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPI;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPIImpl;
 import ua.artcode.taxi.utils.geolocation.Location;
 
 public class TestGoogleApi {
 
-    public static void main(String[] args) {
+    @Test
+    public void testGoogleApi() {
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPIImpl();
 
         Location location = googleMapsAPI.findLocation("Україна Київ Бульва Лесі Українки 5");
 
-        System.out.println(location);
-
+        Assert.assertNotNull(location);
 
         Location location1 = googleMapsAPI.findLocation("Україна", "Київ", "Бульва Лесі Українки", "5");
         Location location2 = googleMapsAPI.findLocation("Україна", "Київ", "Старокиєвська", "10");
 
-        System.out.println(googleMapsAPI.getDistance(location1, location2));
+        Assert.assertTrue(googleMapsAPI.getDistance(location1, location2) > 0);
 
     }
 }
