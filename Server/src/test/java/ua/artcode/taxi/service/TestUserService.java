@@ -1,6 +1,7 @@
 package ua.artcode.taxi.service;
 
 import org.apache.log4j.Logger;
+import org.junit.*;
 import ua.artcode.taxi.dao.AppDB;
 import ua.artcode.taxi.dao.OrderDaoInnerDbImpl;
 import ua.artcode.taxi.dao.UserDaoInnerDbImpl;
