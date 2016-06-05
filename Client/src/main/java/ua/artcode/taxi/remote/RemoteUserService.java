@@ -1,11 +1,14 @@
 package ua.artcode.taxi.remote;
 
+import com.google.gson.Gson;
 import ua.artcode.taxi.exception.*;
 import ua.artcode.taxi.model.Address;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.OrderStatus;
 import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.service.UserService;
+import ua.artcode.taxi.to.Message;
+import ua.artcode.taxi.to.MessageBody;
 
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
@@ -21,11 +24,15 @@ import java.util.Map;
  */
 public class RemoteUserService implements UserService {
 
+    private Gson gson;
     private Socket connection;
     private BufferedReader bf;
     private PrintWriter pw;
 
     public RemoteUserService() {
+
+        gson = new Gson();
+
         try {
             connection = new Socket("127.0.0.1", 9999);
             bf = new BufferedReader(
@@ -50,24 +57,32 @@ public class RemoteUserService implements UserService {
 
     @Override
     public String login(String phone, String pass) throws LoginException {
-        pw.println("1");
+
+        Message src = new Message();
+        src.setMethodName("login");
+
+        MessageBody messageBody = new MessageBody();
+        messageBody.getMap().put("phone", phone);
+        messageBody.getMap().put("pass", pass);
+
+        src.setMessageBody(messageBody);
+        String jsonMessage = gson.toJson(src);
+
+        pw.println(jsonMessage);
         pw.flush();
 
-        String line = null;
-        StringBuilder sb = new StringBuilder();
+        String jsonResponse =  null;
         try {
-            while((line = bf.readLine()) != null){
-                sb.append(line).append("\n");
-            }
+            jsonResponse = bf.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String jsonResponse = sb.toString();
         System.out.println(jsonResponse);
 
+        Message response = gson.fromJson(jsonResponse, Message.class);
         // json - Object
-        return null;
+        return response.getMessageBody().getMap().get("accessKey").toString();
     }
 
     @Override

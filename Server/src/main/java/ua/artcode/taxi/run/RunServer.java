@@ -1,30 +1,40 @@
 package ua.artcode.taxi.run;
 
+import com.google.gson.Gson;
 import ua.artcode.taxi.dao.AppDB;
 import ua.artcode.taxi.dao.OrderDaoInnerDbImpl;
 import ua.artcode.taxi.dao.UserDaoInnerDbImpl;
+import ua.artcode.taxi.model.Address;
+import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 import ua.artcode.taxi.service.UserService;
 import ua.artcode.taxi.service.UserServiceImpl;
 import ua.artcode.taxi.service.ValidatorImpl;
+import ua.artcode.taxi.to.Message;
+import ua.artcode.taxi.to.MessageBody;
 
+import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 
-/**
- * Created by serhii on 05.06.16.
- */
+
 public class RunServer {
-
-
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(9999);
 
+        Gson gson = new Gson();
+
         AppDB appDB = new AppDB();
+        appDB.addUser(new User(
+                UserIdentifier.P, "1234","1234","Oleg", new Address()));
+
+
         UserService userService = new UserServiceImpl(
                 new UserDaoInnerDbImpl(appDB),
                 new OrderDaoInnerDbImpl(appDB),
@@ -38,19 +48,33 @@ public class RunServer {
             BufferedReader bf = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
 
-            printWriter.println("Hello form server" + getMenu());
-            printWriter.flush();
-
             while(true){
-                String line = null;
-                StringBuilder sb = new StringBuilder();
-                while((line = bf.readLine()) != null){
-                    sb.append(line).append("\n");
+
+                String requestBody = bf.readLine() + "\n";
+                System.out.println(requestBody);
+
+                Message message = gson.fromJson(requestBody, Message.class);
+
+                if("login".equals(message.getMethodName())){
+                    Map<String, Object> map = message.getMessageBody().getMap();
+                    Object phone = map.get("phone");
+                    Object pass = map.get("pass");
+                    try {
+                        String accessKey = userService.login(phone.toString(), pass.toString());
+
+                        Message responseMessage = new Message();
+                        MessageBody messageBody = new MessageBody();
+
+                        messageBody.getMap().put("accessKey", accessKey);
+                        responseMessage.setMessageBody(messageBody);
+
+                        printWriter.println(gson.toJson(responseMessage));
+                        printWriter.flush();
+                    } catch (LoginException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                System.out.println(sb.toString());
-
-                String requestBody = sb.toString();
 
             }
 
